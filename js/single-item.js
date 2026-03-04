@@ -22,5 +22,10 @@ function createSingleItem(item) {
     editCompleted(item.id);
   });
 
+  // Remove button event → call removeItem
+  $div.find(".remove-btn").on("click", function () {
+    removeItem(item.id);
+  });
+
   return $div;
 }
