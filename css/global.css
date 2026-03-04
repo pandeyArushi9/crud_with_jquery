@@ -16,7 +16,7 @@ body {
 
 .section-center {
   margin: 0 auto;
-  margin-top: 8rem;
+  margin-top: 2rem; /* reduce from 8rem to 2rem */
   max-width: 30rem;
   background: #fff;
   border-radius: 0.25rem;
