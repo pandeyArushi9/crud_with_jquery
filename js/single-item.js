@@ -27,5 +27,10 @@ function createSingleItem(item) {
     removeItem(item.id);
   });
 
+  // Edit button event → call setEditId
+  $div.find(".edit-btn").on("click", function () {
+    setEditId(item.id);
+  });
+
   return $div;
 }
