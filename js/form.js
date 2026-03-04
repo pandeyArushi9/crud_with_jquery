@@ -1,7 +1,8 @@
 // Create Form Element
-function createForm() {
+function createForm(editId, itemToEdit) {
   var $form = $("<form></form>");
 
+  // Dynamic input value and button text
   $form.html(`
     <h2>grocery bud</h2>
     <div class="form-control">
@@ -9,13 +10,15 @@ function createForm() {
         type="text"
         class="form-input"
         placeholder="e.g. eggs"
+        value="${itemToEdit ? itemToEdit.name : ""}"
       />
       <button type="submit" class="btn">
-        add item
+        ${editId ? "edit item" : "add item"}
       </button>
     </div>
   `);
 
+  // Form submit handler
   $form.on("submit", function (e) {
     e.preventDefault();
     var $input = $form.find(".form-input");
@@ -26,7 +29,13 @@ function createForm() {
       return;
     }
 
-    addItem(value);
+    // Add or Edit depending on mode
+    if (editId) {
+      updateItemName(value);
+    } else {
+      addItem(value);
+    }
+
     $input.val("");
   });
 
