@@ -1,4 +1,15 @@
-var items = groceryItems;
+// Local Storage Functions
+function getLocalStorage() {
+  var list = localStorage.getItem("grocery-list");
+  return list ? JSON.parse(list) : [];
+}
+
+function setLocalStorage(itemsArray) {
+  localStorage.setItem("grocery-list", JSON.stringify(itemsArray));
+}
+
+// Initialize items from local storage
+var items = getLocalStorage();
 var editId = null;
 
 // Render App
@@ -32,6 +43,7 @@ function addItem(itemName) {
     id: generateId(),
   };
   items.push(newItem);
+  setLocalStorage(items);
   render();
   setTimeout(function () {
     alert("Item Added Successfully!");
@@ -46,6 +58,7 @@ function editCompleted(itemId) {
     }
     return item;
   });
+  setLocalStorage(items);
   render();
 }
 
@@ -54,6 +67,7 @@ function removeItem(itemId) {
   items = $.grep(items, function (item) {
     return item.id !== itemId;
   });
+  setLocalStorage(items);
   render();
   setTimeout(function () {
     alert("Item Deleted Successfully!");
@@ -69,6 +83,7 @@ function updateItemName(newName) {
     return item;
   });
   editId = null;
+  setLocalStorage(items);
   render();
   setTimeout(function () {
     alert("Item Updated Successfully!");
@@ -106,5 +121,17 @@ $(document).ready(function () {
   $("#app").on("click", ".edit-btn", function () {
     var itemId = $(this).closest(".single-item").data("id");
     setEditId(itemId);
+  });
+
+  // Delegate form submission → add or update item
+  $("#app").on("submit", "form", function (e) {
+    e.preventDefault();
+    var inputVal = $(".form-input").val().trim();
+    if (!inputVal) return;
+    if (editId) {
+      updateItemName(inputVal);
+    } else {
+      addItem(inputVal);
+    }
   });
 });
